@@ -233,9 +233,7 @@ class SessionManager:
         """Start the initial agent session"""
         self.ctx = ctx
         self.participant = participant
-        
-        logger.info(f"Starting session with instructions: {self.current_config.instructions[:100]}...")
-        
+                
         # Conditionally add Grok image generation tool
         tools = []
         if self.current_config.grok_image_enabled:
@@ -247,18 +245,11 @@ class SessionManager:
             instructions=self.current_config.instructions,
             tools=tools
         )
-        
-        logger.info(f"Agent created with instructions: {self.current_agent.instructions[:100]}...")
-        
+                
         await self.current_session.start(
             room=ctx.room,
             agent=self.current_agent,
         )
-        
-        # Explicitly update instructions after session start to ensure they are set
-        logger.info("Explicitly updating instructions after session start...")
-        await self.current_agent.update_instructions(self.current_config.instructions)
-        logger.info("Instructions explicitly updated")
         
         # Greet the user - let agent use its configured instructions naturally
         await self.current_session.generate_reply(user_input="SYSTEM: Please begin the interaction with the user in a manner consistent with your instructions.")
