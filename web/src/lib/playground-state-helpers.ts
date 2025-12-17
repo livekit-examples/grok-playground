@@ -4,12 +4,12 @@ import {
   defaultSessionConfig,
 } from "@/data/playground-state";
 import { Preset, defaultPresets } from "@/data/presets";
-import { IMMUTABLE_NANO_BANANA_PROMPT } from "@/data/immutable-prompt";
+import { IMMUTABLE_GROK_IMAGE_GENERATION_PROMPT } from "@/data/immutable-prompt";
 
 export const playgroundStateHelpers = {
   getSelectedPreset: (state: PlaygroundState) => {
     return [...defaultPresets, ...state.userPresets].find(
-      (preset) => preset.id === state.selectedPresetId,
+      (preset) => preset.id === state.selectedPresetId
     );
   },
   getDefaultPresets: () => defaultPresets,
@@ -52,7 +52,7 @@ export const playgroundStateHelpers = {
   },
 
   decodeFromURLParams: (
-    urlParams: string,
+    urlParams: string
   ): { state: Partial<PlaygroundState>; preset?: Partial<Preset> } => {
     const params = new URLSearchParams(urlParams);
     const returnValue: {
@@ -69,7 +69,7 @@ export const playgroundStateHelpers = {
     params.forEach((value, key) => {
       if (key.startsWith("sessionConfig.")) {
         const configKey = key.split(
-          ".",
+          "."
         )[1] as keyof PlaygroundState["sessionConfig"];
         sessionConfig[configKey] = value as any;
       }
@@ -101,14 +101,13 @@ export const playgroundStateHelpers = {
   },
 
   /**
-   * Checks if the immutable nano banana prompt should be used
-   * Returns true if nano banana is enabled AND the current preset is NOT the creative-artist preset
+   * Checks if the immutable Grok Image Generation prompt should be used
+   * Returns true if Grok Image Generation is enabled AND the current preset is NOT the creative-artist preset
    */
   shouldUseImmutablePrompt: (state: PlaygroundState): boolean => {
     const { sessionConfig, selectedPresetId } = state;
     return (
-      sessionConfig.nanoBananaEnabled &&
-      selectedPresetId !== "creative-artist"
+      sessionConfig.grokImageEnabled && selectedPresetId !== "creative-artist"
     );
   },
 
@@ -116,12 +115,13 @@ export const playgroundStateHelpers = {
    * Gets the full instructions with immutable prompt prepended if needed
    */
   getFullInstructions: (state: PlaygroundState): string => {
-    const shouldUseImmutable = playgroundStateHelpers.shouldUseImmutablePrompt(state);
-    
+    const shouldUseImmutable =
+      playgroundStateHelpers.shouldUseImmutablePrompt(state);
+
     if (shouldUseImmutable) {
-      return `${IMMUTABLE_NANO_BANANA_PROMPT}\n\n${state.instructions}`;
+      return `${IMMUTABLE_GROK_IMAGE_GENERATION_PROMPT}\n\n${state.instructions}`;
     }
-    
+
     return state.instructions;
   },
 
@@ -130,7 +130,7 @@ export const playgroundStateHelpers = {
    */
   getImmutablePrompt: (state: PlaygroundState): string | null => {
     return playgroundStateHelpers.shouldUseImmutablePrompt(state)
-      ? IMMUTABLE_NANO_BANANA_PROMPT
+      ? IMMUTABLE_GROK_IMAGE_GENERATION_PROMPT
       : null;
   },
 

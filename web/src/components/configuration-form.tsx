@@ -23,7 +23,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ModalitiesId } from "@/data/modalities";
 
 // Configuration changes that require full reconnection instead of hot-reload
-const RECONNECT_REQUIRED_FIELDS = ["voice", "nano_banana_enabled"];
+const RECONNECT_REQUIRED_FIELDS = ["voice", "grok_image_enabled"];
 
 export const ConfigurationFormSchema = z.object({
   model: z.nativeEnum(ModelId),
@@ -31,7 +31,7 @@ export const ConfigurationFormSchema = z.object({
   voice: z.nativeEnum(VoiceId),
   temperature: z.number().min(0.6).max(1.2),
   maxOutputTokens: z.number().nullable(),
-  nanoBananaEnabled: z.boolean(),
+  grokImageEnabled: z.boolean(),
 });
 
 export interface ConfigurationFormFieldProps {
@@ -66,14 +66,14 @@ export function ConfigurationForm() {
     const values = pgState.sessionConfig;
     const fullInstructions = playgroundStateHelpers.getFullInstructions(pgState);
     const attributes: { [key: string]: string | number | boolean } = {
-      gemini_api_key: pgState.geminiAPIKey || "",
+      xai_api_key: pgState.xaiAPIKey || "",
       instructions: fullInstructions,
       model: values.model,
       voice: values.voice,
       modalities: values.modalities,
       temperature: values.temperature,
       max_output_tokens: values.maxOutputTokens || "",
-      nano_banana_enabled: values.nanoBananaEnabled,
+      grok_image_enabled: values.grokImageEnabled,
     };
     if (!agent?.identity) {
       return;
@@ -170,7 +170,7 @@ export function ConfigurationForm() {
   }, [
     pgState.sessionConfig,
     pgState.instructions,
-    pgState.geminiAPIKey,
+    pgState.xaiAPIKey,
     localParticipant,
     toast,
     agent?.identity,

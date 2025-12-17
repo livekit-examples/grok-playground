@@ -3,8 +3,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  /* Gemini-specific colors */
-  --color-gemini-blue: #5282ed;
+  /* Grok-specific colors */
+  --color-grok-orange: #f97316;
   
   /* Semantic background colors */
   --color-background: var(--background);

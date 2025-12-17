@@ -26,10 +26,10 @@ jobs:
         run: |
           cat > agent/livekit.toml << 'EOF'
           [project]
-            subdomain = "geminiplayground-cmxxiyax"
+            subdomain = "grok-playground-n59qw7sx"
 
           [agent]
-            id = "CA_K5ABztZkb3G4"
+            id = "CA_UankD9LUAiif"
           EOF
           echo "✅ Created temporary livekit.toml for deployment"
           cat agent/livekit.toml

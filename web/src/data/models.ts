@@ -1,10 +1,10 @@
 export enum ModelId {
-  // Native audio models
-  GEMINI_2_5_FLASH_NATIVE_AUDIO_PREVIEW_09_2025 = "gemini-2.5-flash-native-audio-preview-09-2025",
+  // Grok Realtime model
+  GROK_1118 = "grok-1118",
 }
 
 export enum ModelCategory {
-  NATIVE_AUDIO = "Native Audio",
+  REALTIME = "Realtime",
 }
 
 export interface Model {
@@ -16,11 +16,11 @@ export interface Model {
 }
 
 export const modelsData: Record<ModelId, Model> = {
-  [ModelId.GEMINI_2_5_FLASH_NATIVE_AUDIO_PREVIEW_09_2025]: {
-    id: ModelId.GEMINI_2_5_FLASH_NATIVE_AUDIO_PREVIEW_09_2025,
-    name: "Gemini 2.5 Flash Native Audio",
-    description: "Natural speech with emotion-aware dialogue and thinking (09/2025)",
-    category: ModelCategory.NATIVE_AUDIO,
+  [ModelId.GROK_1118]: {
+    id: ModelId.GROK_1118,
+    name: "Grok Realtime",
+    description: "xAI's realtime voice model with natural speech capabilities",
+    category: ModelCategory.REALTIME,
     isNew: true,
   },
 };
@@ -28,5 +28,5 @@ export const modelsData: Record<ModelId, Model> = {
 export const models: Model[] = Object.values(modelsData);
 
 export const modelsByCategory: Record<ModelCategory, Model[]> = {
-  [ModelCategory.NATIVE_AUDIO]: models.filter(m => m.category === ModelCategory.NATIVE_AUDIO),
+  [ModelCategory.REALTIME]: models.filter(m => m.category === ModelCategory.REALTIME),
 };

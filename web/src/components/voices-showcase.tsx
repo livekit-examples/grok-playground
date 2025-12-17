@@ -21,7 +21,11 @@ interface VoicesShowcaseProps {
   onOpenChange?: (open: boolean) => void;
 }
 
-export function VoicesShowcase({ onSelectVoice, currentVoice, onOpenChange }: VoicesShowcaseProps) {
+export function VoicesShowcase({
+  onSelectVoice,
+  currentVoice,
+  onOpenChange,
+}: VoicesShowcaseProps) {
   const [open, setOpen] = useState(false);
 
   const handleOpenChange = (newOpen: boolean) => {
@@ -48,7 +52,8 @@ export function VoicesShowcase({ onSelectVoice, currentVoice, onOpenChange }: Vo
               Available Voices
             </DialogTitle>
             <DialogDescription className="text-base text-fg1 mt-2">
-              Choose from {voices.length} unique voice options for your AI agent.
+              Choose from {voices.length} unique voice options for your AI
+              agent.
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -93,7 +98,7 @@ export function VoicesShowcase({ onSelectVoice, currentVoice, onOpenChange }: Vo
         <div className="px-6 py-4 border-t border-separator1 bg-bg1">
           <div className="flex items-center justify-between gap-4">
             <p className="text-sm text-fg2">
-              Listen to all voices in Google AI Studio
+              Listen to all voices in xAI Console
             </p>
             <Button
               variant="primary"
@@ -101,13 +106,13 @@ export function VoicesShowcase({ onSelectVoice, currentVoice, onOpenChange }: Vo
               leftIcon={<ExternalLink />}
               onClick={() =>
                 window.open(
-                  "https://aistudio.google.com/generate-speech",
+                  "https://console.x.ai/",
                   "_blank",
                   "noopener,noreferrer"
                 )
               }
             >
-              Try in AI Studio
+              Try in xAI Console
             </Button>
           </div>
         </div>
@@ -115,4 +120,3 @@ export function VoicesShowcase({ onSelectVoice, currentVoice, onOpenChange }: Vo
     </Dialog>
   );
 }
-

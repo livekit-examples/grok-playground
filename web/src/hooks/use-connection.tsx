@@ -43,8 +43,8 @@ export const ConnectionProvider = ({
   const { pgState } = usePlaygroundState();
 
   const connect = async () => {
-    if (!pgState.geminiAPIKey) {
-      throw new Error("Gemini API key is required to connect");
+    if (!pgState.xaiAPIKey) {
+      throw new Error("xAI API key is required to connect");
     }
     const response = await fetch("/api/token", {
       method: "POST",
@@ -74,10 +74,10 @@ export const ConnectionProvider = ({
 
   // Effect to handle API key changes
   useEffect(() => {
-    if (pgState.geminiAPIKey === null && connectionDetails.shouldConnect) {
+    if (pgState.xaiAPIKey === null && connectionDetails.shouldConnect) {
       disconnect();
     }
-  }, [pgState.geminiAPIKey, connectionDetails.shouldConnect, disconnect]);
+  }, [pgState.xaiAPIKey, connectionDetails.shouldConnect, disconnect]);
 
   return (
     <ConnectionContext.Provider

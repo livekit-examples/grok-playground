@@ -55,7 +55,7 @@ export function ModelsShowcase({ onSelectModel, currentModel, onOpenChange }: Mo
               Available Models
             </DialogTitle>
             <DialogDescription className="text-base text-fg1 mt-2">
-              Choose from {models.length} Gemini models optimized for live interactions.
+              Choose from {models.length} Grok models optimized for realtime interactions.
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -121,8 +121,7 @@ export function ModelsShowcase({ onSelectModel, currentModel, onOpenChange }: Mo
 
         <div className="px-6 py-4 border-t border-separator1 bg-bg1">
           <p className="text-xs text-fg2">
-            <span className="font-semibold">Tip:</span> Native audio models provide the most natural speech but may have higher latency. 
-            Half-cascade models are optimized for production use with tools.
+            <span className="font-semibold">Tip:</span> Grok realtime models provide natural speech with low latency voice interactions.
           </p>
         </div>
       </DialogContent>

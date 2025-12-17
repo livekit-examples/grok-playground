@@ -14,8 +14,8 @@ import { ChatControls } from "@/components/chat-controls";
 import { useAgent } from "@/hooks/use-agent";
 import { useConnection } from "@/hooks/use-connection";
 import { toast } from "@/hooks/use-toast";
-import { GeminiVisualizer } from "@/components/visualizer/gemini-visualizer";
-import { NanoBananaFeed } from "@/components/nano-banana-feed";
+import { GrokVisualizer } from "@/components/visualizer/grok-visualizer";
+import { GrokImageFeed } from "@/components/grok-image-feed";
 
 export function Chat() {
   const connectionState = useConnectionState();
@@ -86,7 +86,7 @@ export function Chat() {
   const renderVisualizer = () => (
     <div className="flex w-full items-center">
       <div className="h-[280px] lg:h-[400px] mt-16 md:mt-0 lg:pb-24 w-full">
-        <GeminiVisualizer 
+        <GrokVisualizer 
           key={audioTrack?.publication?.trackSid || 'no-track'} 
           agentState={state} 
           agentTrackRef={audioTrack} 
@@ -136,7 +136,7 @@ export function Chat() {
             </div>
           </div>
           
-          <NanoBananaFeed />
+          <GrokImageFeed />
         </div>
 
         <div className="my-4">{renderConnectionControl()}</div>

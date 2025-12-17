@@ -13,9 +13,9 @@ export async function generateMetadata({
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }): Promise<Metadata> {
-  let title = "LiveKit | Gemini Live API Playground";
+  let title = "LiveKit | Grok Realtime API Playground";
   let description =
-    "Speech-to-speech playground for Google's new Gemini Live API. Built on LiveKit Agents";
+    "Speech-to-speech playground for xAI's Grok Realtime API. Built on LiveKit Agents";
 
   const params = await searchParams;
   const presetId = params?.preset;
@@ -24,8 +24,8 @@ export async function generateMetadata({
       (preset) => preset.id === presetId
     );
     if (selectedPreset) {
-      title = `Gemini Live API Playground`;
-      description = `Speak to a "${selectedPreset.name}" in a speech-to-speech playground for Gemini's new Live API. Built on LiveKitAgents.`;
+      title = `Grok Realtime API Playground`;
+      description = `Speak to a "${selectedPreset.name}" in a speech-to-speech playground for xAI's Grok Realtime API. Built on LiveKit Agents.`;
     }
   }
 
@@ -36,10 +36,10 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      url: "https://gemini-playground-xi.vercel.app/",
+      url: "https://grok.livekit.io/",
       images: [
         {
-          url: "https://gemini-playground-xi.vercel.app/og-image.png",
+          url: "https://grok.livekit.io/og-image.png",
           width: 1200,
           height: 676,
           type: "image/png",
@@ -56,7 +56,7 @@ export default function Dashboard() {
       <header className="flex flex-col md:flex-row flex-shrink-0 gap-3 md:h-16 items-center justify-between px-4 md:px-8 py-4 w-full border-b border-separator1 min-w-0">
         <div className="flex items-center min-w-0 flex-shrink">
           <span className="text-lg font-light truncate">
-            Gemini Live API Playground
+            Grok Realtime API Playground
           </span>
         </div>
         <div className="inline-flex flex-row items-center space-x-2 flex-shrink-0">
@@ -85,7 +85,7 @@ export default function Dashboard() {
         </a>{" "}
         •
         <a
-          href="https://github.com/livekit-examples/gemini-playground"
+          href="https://github.com/livekit-examples/grok-playground"
           target="_blank"
           rel="noopener noreferrer"
           className="underline inline-flex items-center gap-1"

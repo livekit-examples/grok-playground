@@ -5,3 +5,4 @@ node_modules
 .env
 .env.local
 livekit.toml
+agent/grok_agent.egg-info/

@@ -3,14 +3,13 @@ from __future__ import annotations
 import asyncio
 import json
 import logging
+import os
 from dataclasses import asdict, dataclass
 from typing import Any, Dict, List
 
 from PIL import Image
 from io import BytesIO
 from dotenv import load_dotenv
-from google import genai
-from google.genai import types
 from livekit import rtc
 from livekit.agents import (
     Agent,
@@ -23,11 +22,13 @@ from livekit.agents import (
     function_tool,
     utils,
 )
-from livekit.plugins import google
+from livekit.plugins import xai
+from xai_sdk import Client
+
 
 load_dotenv(dotenv_path=".env.local")
 
-logger = logging.getLogger("gemini-playground")
+logger = logging.getLogger("grok-playground")
 logger.setLevel(logging.INFO)
 
 # Suppress OpenTelemetry attribute warnings
@@ -36,26 +37,26 @@ logging.getLogger("opentelemetry.attributes").setLevel(logging.ERROR)
 
 @dataclass
 class SessionConfig:
-    gemini_api_key: str
+    xai_api_key: str
     instructions: str
     model: str
     voice: str
     temperature: float
     max_response_output_tokens: str | int
     modalities: list[str]
-    nano_banana_enabled: bool = False
+    grok_image_enabled: bool = False
 
     def to_dict(self):
-        return {k: v for k, v in asdict(self).items() if k != "gemini_api_key"}
+        return {k: v for k, v in asdict(self).items() if k != "xai_api_key"}
 
     @staticmethod
     def _modalities_from_string(
         modalities: str,
     ) -> list[str]:
         modalities_map: Dict[str, List[str]] = {
-            "text_and_audio": ["TEXT", "AUDIO"],
-            "text_only": ["TEXT"],
-            "audio_only": ["AUDIO"],
+            "text_and_audio": ["text", "audio"],
+            "text_only": ["text"],
+            "audio_only": ["audio"],
         }
         return modalities_map.get(modalities, modalities_map["audio_only"])
 
@@ -64,22 +65,22 @@ class SessionConfig:
 
 
 def parse_session_config(data: Dict[str, Any]) -> SessionConfig:
-    # Parse nano_banana_enabled - handle both boolean and string types
-    nano_banana_value = data.get("nano_banana_enabled", False)
-    if isinstance(nano_banana_value, bool):
-        nano_banana_enabled = nano_banana_value
-    elif isinstance(nano_banana_value, str):
-        nano_banana_enabled = nano_banana_value.lower() == "true"
+    # Parse grok_image_enabled - handle both boolean and string types
+    grok_image_value = data.get("grok_image_enabled", False)
+    if isinstance(grok_image_value, bool):
+        grok_image_enabled = grok_image_value
+    elif isinstance(grok_image_value, str):
+        grok_image_enabled = grok_image_value.lower() == "true"
     else:
-        nano_banana_enabled = bool(nano_banana_value)
+        grok_image_enabled = bool(grok_image_value)
     
-    logger.debug(f"Parsing config - nano_banana_enabled: {nano_banana_value} (type: {type(nano_banana_value).__name__}) -> {nano_banana_enabled}")
+    logger.debug(f"Parsing config - grok_image_enabled: {grok_image_value} (type: {type(grok_image_value).__name__}) -> {grok_image_enabled}")
     
     config = SessionConfig(
-        gemini_api_key=data.get("gemini_api_key", ""),
+        xai_api_key=data.get("xai_api_key", ""),
         instructions=data.get("instructions", ""),
-        model=data.get("model", "gemini-2.5-flash-native-audio-preview-09-2025"),
-        voice=data.get("voice", "Puck"),
+        model=data.get("model", "grok-1118"),
+        voice=data.get("voice", "Ava"),
         temperature=float(data.get("temperature", 0.8)),
         max_response_output_tokens=
             "inf" if data.get("max_output_tokens") == "inf"
@@ -87,7 +88,7 @@ def parse_session_config(data: Dict[str, Any]) -> SessionConfig:
         modalities=SessionConfig._modalities_from_string(
             data.get("modalities", "audio_only")
         ),
-        nano_banana_enabled=nano_banana_enabled,
+        grok_image_enabled=grok_image_enabled,
     )
     return config
 
@@ -119,13 +120,13 @@ def create_generate_image_tool(session_manager):
     raw_schema = {
         "type": "function",
         "name": "generate_image",
-        "description": "Generate an image using Nano Banana and send it to the user",
+        "description": "Generate an image using Grok Image Generation and send it to the user",
         "parameters": {
             "type": "object",
             "properties": {
                 "prompt": {
                     "type": "string",
-                    "description": "Creative, detailed, and sophisticated description of the image to generate (e.g., 'a cat eating a nano-banana in a fancy restaurant'), not simply a few words. Not a generic prompt such as 'image of a cat' or 'random image'."
+                    "description": "Creative, detailed, and sophisticated description of the image to generate (e.g., 'a futuristic city with flying cars at sunset'), not simply a few words. Not a generic prompt such as 'image of a cat' or 'random image'."
                 }
             },
             "required": [
@@ -141,22 +142,20 @@ def create_generate_image_tool(session_manager):
         prompt = raw_arguments["prompt"]
         
         try:
-            client = genai.Client(api_key=session_manager.current_config.gemini_api_key)
+            # Use xAI SDK for image generation
+            client = Client(api_key=session_manager.current_config.xai_api_key)
             
             # Run synchronous image generation in a thread to avoid blocking event loop
             response = await asyncio.to_thread(
-                lambda: client.models.generate_images(
-                    model='imagen-4.0-fast-generate-001',
+                lambda: client.image.sample(
+                    model='grok-2-image',
                     prompt=prompt,
-                    config=types.GenerateImagesConfig(
-                        number_of_images=1,
-                        output_mime_type='image/jpeg',
-                    ),
+                    image_format="base64"
                 )
             )
             
-            # Get the original image
-            image_bytes = response.generated_images[0].image.image_bytes
+            # Get the image bytes from response
+            image_bytes = response.image
             
             # Compress the image to reduce size
             img = Image.open(BytesIO(image_bytes))
@@ -201,13 +200,9 @@ class SessionManager:
     def create_session(self, config: SessionConfig) -> AgentSession:
         """Create an AgentSession with the given configuration"""
         session = AgentSession(
-            llm=google.realtime.RealtimeModel(
-                model=config.model,
+            llm=xai.RealtimeModel(
                 voice=config.voice,
-                temperature=config.temperature,
-                max_output_tokens=int(config.max_response_output_tokens) if config.max_response_output_tokens != "inf" else None,
-                modalities=config.modalities,
-                api_key=config.gemini_api_key,
+                api_key=config.xai_api_key,
             )
         )
         return session
@@ -217,10 +212,10 @@ class SessionManager:
         self.ctx = ctx
         self.participant = participant
         
-        # Conditionally add nano banana tool
+        # Conditionally add Grok image generation tool
         tools = []
-        if self.current_config.nano_banana_enabled:
-            logger.info("Nano Banana tool enabled 🍌")
+        if self.current_config.grok_image_enabled:
+            logger.info("Grok Image Generation tool enabled 🎨")
             tools.append(create_generate_image_tool(self))
         
         self.current_session = self.create_session(self.current_config)
@@ -272,9 +267,9 @@ class SessionManager:
                 name="generated_image.jpg",
                 total_size=len(image_data),
                 mime_type="image/jpeg",
-                topic="nano_banana_image",
+                topic="grok_image",
                 destination_identities=[self.participant.identity],
-                attributes={"prompt": prompt, "type": "nano_banana_image"},
+                attributes={"prompt": prompt, "type": "grok_image"},
             )
             
             # Write the image data and close the stream
@@ -299,19 +294,19 @@ class SessionManager:
         except Exception as e:
             logger.warning(f"Could not preserve chat context: {e}")
         
-        # Track if nano banana is being newly enabled (compare old vs new config)
-        was_nano_banana_enabled = old_config.nano_banana_enabled
-        is_nano_banana_enabled = config.nano_banana_enabled
-        nano_banana_newly_enabled = not was_nano_banana_enabled and is_nano_banana_enabled
+        # Track if Grok image is being newly enabled (compare old vs new config)
+        was_grok_image_enabled = old_config.grok_image_enabled
+        is_grok_image_enabled = config.grok_image_enabled
+        grok_image_newly_enabled = not was_grok_image_enabled and is_grok_image_enabled
         
-        logger.info(f"Nano Banana status: was={was_nano_banana_enabled}, now={is_nano_banana_enabled}, newly_enabled={nano_banana_newly_enabled}")
+        logger.info(f"Image Generation status: was={was_grok_image_enabled}, now={is_grok_image_enabled}, newly_enabled={grok_image_newly_enabled}")
         
         # End current session
         await self.current_session.aclose()
         
-        # Conditionally add nano banana tool
+        # Conditionally add Grok image generation tool
         tools = []
-        if config.nano_banana_enabled:
+        if config.grok_image_enabled:
             tools.append(create_generate_image_tool(self))
         
         # Create new session with updated config
@@ -331,19 +326,19 @@ class SessionManager:
         
         # Notify user about the config change
         try:
-            if nano_banana_newly_enabled:
-                logger.info("Nano Banana tool newly enabled")
+            if grok_image_newly_enabled:
+                logger.info("Grok Image Generation tool newly enabled")
                 await self.current_session.generate_reply(
-                    instructions="Briefly and enthusiastically announce: 'Nano Banana now active, feel free to ask me to generate an image and I can show you whatever you like!'",
+                    instructions="Briefly and enthusiastically announce: 'Grok Image Generation is now active! Feel free to ask me to generate an image and I can show you whatever you like!'",
                 )
             else:
                 logger.info("Session restarted with new config")
                 await self.current_session.generate_reply(
-                    instructions=  is_nano_banana_enabled and "Briefly acknowledge that your configuration has been updated and you're ready to continue and announce that you can also generate images now!" or "Briefly acknowledge that your configuration has been updated and you're ready to continue"
+                    instructions=is_grok_image_enabled and "Briefly acknowledge that your configuration has been updated and you're ready to continue and announce that you can also generate images now!" or "Briefly acknowledge that your configuration has been updated and you're ready to continue"
                 )
         except Exception as e:
             logger.error(f"Failed to notify user about config change: {e}")
 
 
 if __name__ == "__main__":
-    cli.run_app(WorkerOptions(agent_name='gemini-playground', entrypoint_fnc=entrypoint, worker_type=WorkerType.ROOM))
+    cli.run_app(WorkerOptions(agent_name='grok-playground', entrypoint_fnc=entrypoint, worker_type=WorkerType.ROOM))

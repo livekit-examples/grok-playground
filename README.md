@@ -1,8 +1,8 @@
-# Gemini Live API Playground
+# Grok Realtime API Playground
 
-This project is an interactive playground that demonstrates the capabilities of Google's Gemini Live API, allowing users to experiment with the API directly in their browser. It's built on top of LiveKit Agents.
+This project is an interactive playground that demonstrates the capabilities of xAI's Grok Realtime API, allowing users to experiment with the API directly in their browser. It's built on top of LiveKit Agents.
 
-![Gemini Live API playground preview](./web/public/playground-preview.gif)
+![Grok Realtime API playground preview](./web/public/playground-preview.gif)
 
 ## Repository Structure
 

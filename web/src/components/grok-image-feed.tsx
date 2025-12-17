@@ -4,7 +4,7 @@ import { useAgent } from "@/hooks/use-agent";
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function NanoBananaFeed() {
+export function GrokImageFeed() {
   const { generatedImages } = useAgent();
   const [isOpen, setIsOpen] = useState(false);
   const [currentImage, setCurrentImage] = useState<typeof generatedImages[0] | null>(null);

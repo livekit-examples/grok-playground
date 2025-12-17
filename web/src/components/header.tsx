@@ -16,7 +16,7 @@ export function Header() {
                 Live API Playground
               </h2>
               <p className="text-sm text-gray-500">
-                Try Google&apos;s new Gemini 2.5 Live API right from
+                Try xAI&apos;s Grok Realtime API right from
                 your browser.
               </p>
             </div>

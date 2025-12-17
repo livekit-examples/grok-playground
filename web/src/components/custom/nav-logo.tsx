@@ -1,6 +1,6 @@
 'use client';
 
-import Gemini from "@/components/gemini";
+import Grok from "@/components/grok";
 
 export function NavLogo() {
   return (
@@ -46,7 +46,7 @@ export function NavLogo() {
         </svg>
       </a>
       <span className="h-6 border-r border-separator1"></span>
-      <Gemini />
+      <Grok />
     </div>
   );
 }

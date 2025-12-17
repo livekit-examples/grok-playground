@@ -125,10 +125,10 @@ export function AgentProvider({ children }: { children: React.ReactNode }) {
       }
     };
 
-    room.registerByteStreamHandler('nano_banana_image', handleByteStream);
+    room.registerByteStreamHandler('grok_image', handleByteStream);
 
     return () => {
-      room.unregisterByteStreamHandler('nano_banana_image');
+      room.unregisterByteStreamHandler('grok_image');
     };
   }, [room, shouldConnect]);
 

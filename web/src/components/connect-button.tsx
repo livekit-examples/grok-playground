@@ -18,7 +18,7 @@ export function ConnectButton() {
     if (shouldConnect) {
       await disconnect();
     } else {
-      if (!pgState.geminiAPIKey) {
+      if (!pgState.xaiAPIKey) {
         setShowAuthDialog(true);
       } else {
         await initiateConnection();
@@ -43,11 +43,11 @@ export function ConnectButton() {
   };
 
   useEffect(() => {
-    if (initiateConnectionFlag && pgState.geminiAPIKey) {
+    if (initiateConnectionFlag && pgState.xaiAPIKey) {
       initiateConnection();
       setInitiateConnectionFlag(false);
     }
-  }, [initiateConnectionFlag, initiateConnection, pgState.geminiAPIKey]);
+  }, [initiateConnectionFlag, initiateConnection, pgState.xaiAPIKey]);
 
   return (
     <>
@@ -66,11 +66,11 @@ export function ConnectButton() {
           ) : (
             <>
               <PhoneCall className="h-4 w-4 mr-2" />
-              Start a conversation with Gemini
+              Start a conversation with Grok
             </>
           )}
         </Button>
-        {!shouldConnect && !connecting && pgState.geminiAPIKey && (
+        {!shouldConnect && !connecting && pgState.xaiAPIKey && (
           <Button
             onClick={() => setShowAuthDialog(true)}
             variant="outline"

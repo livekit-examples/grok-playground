@@ -1,7 +1,6 @@
 "use client";
 
-import { GeminiMark } from "@/components/visualizer/gemini-mark";
-import Logo from "@/assets/gemini.svg";
+import { GrokMark } from "@/components/visualizer/grok-mark";
 import { useTheme } from "next-themes";
 
 import {
@@ -10,15 +9,15 @@ import {
   useTrackVolume,
 } from "@livekit/components-react";
 
-type GeminiVisualizerProps = {
+type GrokVisualizerProps = {
   agentState: AgentState;
   agentTrackRef?: TrackReference;
 };
 
-export function GeminiVisualizer({
+export function GrokVisualizer({
   agentTrackRef,
   agentState,
-}: GeminiVisualizerProps) {
+}: GrokVisualizerProps) {
   const agentVolume = useTrackVolume(agentTrackRef);
   const { theme, resolvedTheme } = useTheme();
   const currentTheme = theme === "system" ? resolvedTheme : theme;
@@ -30,10 +29,7 @@ export function GeminiVisualizer({
         perspective: "1000px",
       }}
     >
-      <div className="absolute z-0 left-1/2 top-1/4 -translate-x-1/2 -translate-y-10 opacity-[0.05]" >
-        <Logo height="64" />
-      </div>
-      <GeminiMark volume={agentVolume} state={agentState} />
+      <GrokMark volume={agentVolume} state={agentState} />
       <Shadow volume={agentVolume} state={agentState} theme={currentTheme} />
     </div>
   );
@@ -54,7 +50,7 @@ const Shadow = ({ volume, state, theme }: { volume: number; state?: AgentState; 
       }}
     >
       <div
-        className={`absolute w-[200px] h-[100px] transition-all duration-150 left-1/2 top-1/2 rounded-full bg-gemini-blue`}
+        className={`absolute w-[200px] h-[100px] transition-all duration-150 left-1/2 top-1/2 rounded-full bg-grok-orange`}
         style={{
           transform: `translate(-50%, calc(-50% + 50px)) scale(${state === "disconnected" ? 0.6 : 0.75 + volume * 0.1})`,
           filter: `blur(30px) ${state === "disconnected" ? "saturate(0.3)" : "saturate(1.0)"}`,

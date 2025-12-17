@@ -19,15 +19,15 @@ export async function POST(request: Request) {
       );
     }
 
-    const {
-      instructions,
-      geminiAPIKey,
-      sessionConfig: { model, modalities, voice, temperature, maxOutputTokens, nanoBananaEnabled },
-    } = playgroundState;
+  const {
+    instructions,
+    xaiAPIKey,
+    sessionConfig: { model, modalities, voice, temperature, maxOutputTokens, grokImageEnabled },
+  } = playgroundState;
 
-    if (!geminiAPIKey) {
+    if (!xaiAPIKey) {
       return Response.json(
-        { error: "Gemini API key is required" },
+        { error: "xAI API key is required" },
         { status: 400 }
       );
     }
@@ -47,8 +47,8 @@ export async function POST(request: Request) {
       voice: voice,
       temperature: temperature,
       max_output_tokens: maxOutputTokens,
-      nano_banana_enabled: nanoBananaEnabled, // Send as boolean, not string
-      gemini_api_key: geminiAPIKey,
+      grok_image_enabled: grokImageEnabled,
+      xai_api_key: xaiAPIKey,
     };
     
     // Create access token
@@ -72,7 +72,7 @@ export async function POST(request: Request) {
       name: roomName,
       agents: [
         new RoomAgentDispatch({
-          agentName: 'gemini-playground',
+          agentName: 'grok-playground',
         }),
       ],
     });

@@ -48,7 +48,7 @@ export function PresetShare() {
         <div className="px-6 py-5 border-b border-separator1">
           <h3 className="text-lg font-semibold text-fg0">Share Preset</h3>
           <p className="text-sm text-fg2 mt-2">
-            Anyone with this link and their own Gemini API key can try what
+            Anyone with this link and their own xAI API key can try what
             you&apos;ve come up with.
           </p>
         </div>
@@ -79,7 +79,7 @@ export function PresetShare() {
         <div className="px-6 py-4 bg-bg2 border-t border-separator1 rounded-b-lg">
           <div className="flex items-center gap-2 text-xs text-fg2">
             <LockClosedIcon className="h-3 w-3 flex-shrink-0" />
-            <span>Your Gemini API key will not be shared.</span>
+            <span>Your xAI API key will not be shared.</span>
           </div>
         </div>
       </PopoverContent>

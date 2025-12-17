@@ -5,7 +5,7 @@ This directory contains a LiveKit Agent that can be deployed to LiveKit Cloud us
 ## Prerequisites
 
 1. **LiveKit Cloud Account**: Sign up at [cloud.livekit.io](https://cloud.livekit.io)
-2. **Google AI API Key**: Get from [Google AI Studio](https://aistudio.google.com/apikey)
+2. **xAI API Key**: Get from [xAI Console](https://console.x.ai/)
 
 ## Local Development
 

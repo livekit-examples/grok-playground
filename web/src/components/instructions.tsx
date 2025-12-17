@@ -16,7 +16,7 @@ export function Instructions() {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
   const { pgState } = usePlaygroundState();
-  
+
   const immutablePrompt = playgroundStateHelpers.getImmutablePrompt(pgState);
 
   return (
@@ -45,21 +45,23 @@ export function Instructions() {
               reflected on the next conversation turn.
               {immutablePrompt && (
                 <>
-                  <br /><br />
-                  <strong>Note:</strong> Nano Banana adds additional instructions for image generation.
+                  <br />
+                  <br />
+                  <strong>Note:</strong> Grok Imagine adds additional
+                  instructions for image generation.
                 </>
               )}
             </HoverCardContent>
           </HoverCard>
         </div>
       </div>
-      
+
       <InstructionsEditor
         instructions={pgState.instructions}
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
       />
-      
+
       {immutablePrompt && (
         <div className="mt-2">
           <button
@@ -71,7 +73,7 @@ export function Instructions() {
             ) : (
               <ChevronRight className="h-3 w-3" />
             )}
-            <span>Nano Banana Instructions Included</span>
+            <span>Grok Image Generation Instructions Included</span>
           </button>
           {isExpanded && (
             <div className="mt-2 p-2 text-xs font-mono leading-loose text-neutral-500 whitespace-pre-wrap">

@@ -19,7 +19,7 @@ import { ModelId } from "@/data/models";
 
 import { Preset, defaultPresets } from "@/data/presets";
 
-const LS_GEMINI_API_KEY_NAME = "GEMINI_API_KEY";
+const LS_XAI_API_KEY_NAME = "XAI_API_KEY";
 const LS_USER_PRESETS_KEY = "PG_USER_PRESETS";
 const LS_SELECTED_PRESET_ID_KEY = "PG_SELECTED_PRESET_ID";
 
@@ -74,13 +74,13 @@ function playgroundStateReducer(
       };
     case "SET_API_KEY":
       if (action.payload) {
-        localStorage.setItem(LS_GEMINI_API_KEY_NAME, action.payload);
+        localStorage.setItem(LS_XAI_API_KEY_NAME, action.payload);
       } else {
-        localStorage.removeItem(LS_GEMINI_API_KEY_NAME);
+        localStorage.removeItem(LS_XAI_API_KEY_NAME);
       }
       return {
         ...state,
-        geminiAPIKey: action.payload,
+        xaiAPIKey: action.payload,
       };
     case "SET_INSTRUCTIONS":
       return {
@@ -174,7 +174,7 @@ export const PlaygroundStateProvider = ({
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
   useEffect(() => {
-    const storedKey = localStorage.getItem(LS_GEMINI_API_KEY_NAME);
+    const storedKey = localStorage.getItem(LS_XAI_API_KEY_NAME);
     if (storedKey && storedKey.length >= 1) {
       dispatch({ type: "SET_API_KEY", payload: storedKey });
     } else {
