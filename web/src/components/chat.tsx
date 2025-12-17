@@ -121,6 +121,12 @@ export function Chat() {
           {/* Mobile: Show instructions and visualizer stacked */}
           <div className="lg:hidden w-full min-w-0 flex flex-col gap-4">
             <Instructions />
+
+            {/* Button for short screens on mobile - show after instructions */}
+            <div className="hidden [@media(max-height:800px)]:flex flex-shrink-0 items-center justify-center w-full">
+              {renderConnectionControl()}
+            </div>
+
             {renderVisualizer()}
           </div>
 
