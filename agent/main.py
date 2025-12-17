@@ -44,7 +44,7 @@ class SessionConfig:
     Other parameters (model, temperature, max_response_output_tokens) 
     are stored for config comparison and potential future use, but are not passed 
     to RealtimeModel as they're hardcoded in the plugin:
-    - model: always "grok-1118"
+    - model: default "grok-4-1-fast-non-reasoning"
     - temperature/max_response_output_tokens: not supported
     """
     xai_api_key: str
@@ -77,7 +77,7 @@ def parse_session_config(data: Dict[str, Any]) -> SessionConfig:
     config = SessionConfig(
         xai_api_key=data.get("xai_api_key", ""),
         instructions=data.get("instructions", ""),
-        model=data.get("model", "grok-1118"),
+        model=data.get("model", "grok-4-1-fast-non-reasoning"),
         voice=data.get("voice", "ara"),
         temperature=float(data.get("temperature", 0.8)),
         max_response_output_tokens=
@@ -218,7 +218,7 @@ class SessionManager:
         
         Note: xai.RealtimeModel only supports 'voice' and 'api_key' parameters.
         The following are hardcoded in the plugin:
-        - model: always "grok-1118"
+        - model: always "grok-4-1-fast-non-reasoning"
         - temperature, max_response_output_tokens: not supported by RealtimeModel yet
         """
         session = AgentSession(

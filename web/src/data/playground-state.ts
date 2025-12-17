@@ -19,7 +19,7 @@ export interface PlaygroundState {
 }
 
 export const defaultSessionConfig: SessionConfig = {
-  model: ModelId.GROK_1118,
+  model: ModelId.GROK_4_1_FAST_NON_REASONING,
   voice: VoiceId.ARA,
   temperature: 0.8,
   maxOutputTokens: null,

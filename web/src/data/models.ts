@@ -1,6 +1,6 @@
 export enum ModelId {
   // Grok Voice Agent model
-  GROK_1118 = "grok-1118",
+  GROK_4_1_FAST_NON_REASONING = "grok-4-1-fast-non-reasoning",
 }
 
 export enum ModelCategory {
@@ -16,8 +16,8 @@ export interface Model {
 }
 
 export const modelsData: Record<ModelId, Model> = {
-  [ModelId.GROK_1118]: {
-    id: ModelId.GROK_1118,
+  [ModelId.GROK_4_1_FAST_NON_REASONING]: {
+    id: ModelId.GROK_4_1_FAST_NON_REASONING,
     name: "Grok Voice Agent",
     description: "xAI's voice model with natural speech capabilities",
     category: ModelCategory.VOICE_AGENT,
@@ -28,5 +28,7 @@ export const modelsData: Record<ModelId, Model> = {
 export const models: Model[] = Object.values(modelsData);
 
 export const modelsByCategory: Record<ModelCategory, Model[]> = {
-  [ModelCategory.VOICE_AGENT]: models.filter(m => m.category === ModelCategory.VOICE_AGENT),
+  [ModelCategory.VOICE_AGENT]: models.filter(
+    (m) => m.category === ModelCategory.VOICE_AGENT
+  ),
 };
