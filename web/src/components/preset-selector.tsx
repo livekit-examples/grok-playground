@@ -120,7 +120,7 @@ export function PresetSelector(props: PopoverProps) {
             size="sm"
             variant="outline"
             role="combobox"
-            aria-label="Load…"
+            aria-label="Load a preset"
             aria-expanded={open}
             className="flex-1 justify-between md:max-w-[200px] lg:max-w-[300px]"
           >
@@ -130,9 +130,9 @@ export function PresetSelector(props: PopoverProps) {
                 if (selectedPreset?.icon) {
                   return <selectedPreset.icon className="mr-2 h-4 w-4" />;
                 }
-                return null;
+                return <FileIcon className="mr-2 h-4 w-4" />;
               })()}
-              <span>{helpers.getSelectedPreset(pgState)?.name || "Load…"}</span>
+              <span>{helpers.getSelectedPreset(pgState)?.name || "Custom"}</span>
             </div>
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -150,9 +150,9 @@ export function PresetSelector(props: PopoverProps) {
                       onSelect={() => handlePresetSelect(preset.id)}
                     >
                       <div className="flex items-center justify-between w-full">
-                        <HoverCard>
+                        <HoverCard openDelay={200}>
                           <HoverCardTrigger asChild>
-                            <div className="flex items-center">
+                            <div className="flex items-center pointer-events-none">
                               {preset.icon && (
                                 <preset.icon className="mr-2 h-4 w-4" />
                               )}
@@ -222,9 +222,9 @@ export function PresetSelector(props: PopoverProps) {
                         value={preset.id}
                         onSelect={() => handlePresetSelect(preset.id)}
                       >
-                        <HoverCard>
+                        <HoverCard openDelay={200}>
                           <HoverCardTrigger asChild>
-                            <div className="flex items-center">
+                            <div className="flex items-center pointer-events-none">
                               {preset.icon && (
                                 <preset.icon className="mr-2 h-4 w-4" />
                               )}  
