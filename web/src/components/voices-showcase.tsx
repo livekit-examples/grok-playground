@@ -76,20 +76,21 @@ export function VoicesShowcase({
                       : "border-separator1 bg-bg0 hover:bg-bg2 hover:border-fg3"
                   )}
                 >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0 flex items-center gap-2">
-                      <h3 className="text-sm font-semibold text-fg0 truncate">
-                        {voice.name}
-                      </h3>
-                      {isSelected && (
-                        <Check className="h-4 w-4 text-fgAccent1 shrink-0" />
-                      )}
-                    </div>
-                    {voice.characteristic && (
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <h3 className="text-sm font-semibold text-fg0">
+                          {voice.name}
+                        </h3>
+                        {isSelected && (
+                          <Check className="h-4 w-4 text-fgAccent1 shrink-0" />
+                        )}
+                      </div>
                       <Badge variant="secondary" className="text-xs shrink-0">
-                        {voice.characteristic}
+                        {voice.type}
                       </Badge>
-                    )}
+                    </div>
+                    <p className="text-xs text-fg2">{voice.tone}</p>
                   </div>
                 </button>
               );
@@ -100,7 +101,7 @@ export function VoicesShowcase({
         <div className="px-6 py-4 border-t border-separator1 bg-bg1">
           <div className="flex items-center justify-between gap-4">
             <p className="text-sm text-fg2">
-              Listen to all voices in xAI Console
+              Learn more about available voices
             </p>
             <Button
               variant="primary"
@@ -108,13 +109,13 @@ export function VoicesShowcase({
               leftIcon={<ExternalLink />}
               onClick={() =>
                 window.open(
-                  "https://console.x.ai/",
+                  "https://docs.x.ai/docs/guides/voice",
                   "_blank",
                   "noopener,noreferrer"
                 )
               }
             >
-              Try in xAI Console
+              Voice Documentation
             </Button>
           </div>
         </div>

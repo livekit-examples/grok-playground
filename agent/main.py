@@ -200,7 +200,7 @@ class SessionManager:
         """Create an AgentSession with the given configuration"""
         session = AgentSession(
             llm=xai.RealtimeModel(
-                voice=config.voice.lower(),
+                voice=config.voice,
                 api_key=config.xai_api_key,
             )
         )
