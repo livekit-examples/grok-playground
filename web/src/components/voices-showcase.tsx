@@ -85,9 +85,11 @@ export function VoicesShowcase({
                         <Check className="h-4 w-4 text-fgAccent1 shrink-0" />
                       )}
                     </div>
-                    <Badge variant="secondary" className="text-xs shrink-0">
-                      {voice.characteristic}
-                    </Badge>
+                    {voice.characteristic && (
+                      <Badge variant="secondary" className="text-xs shrink-0">
+                        {voice.characteristic}
+                      </Badge>
+                    )}
                   </div>
                 </button>
               );
