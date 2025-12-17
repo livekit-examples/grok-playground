@@ -86,10 +86,10 @@ export function Chat() {
   const renderVisualizer = () => (
     <div className="flex w-full items-center">
       <div className="h-[280px] lg:h-[400px] mt-16 md:mt-0 lg:pb-24 w-full">
-        <GrokVisualizer 
-          key={audioTrack?.publication?.trackSid || 'no-track'} 
-          agentState={state} 
-          agentTrackRef={audioTrack} 
+        <GrokVisualizer
+          key={audioTrack?.publication?.trackSid || "no-track"}
+          agentState={state}
+          agentTrackRef={audioTrack}
         />
       </div>
     </div>
@@ -116,30 +116,39 @@ export function Chat() {
         isEditingInstructions={isEditingInstructions}
         onToggleEdit={toggleInstructionsEdit}
       />
-      <div className="flex flex-col flex-grow items-center lg:justify-between mt-12 lg:mt-0 min-w-0">
-        <div className="w-full h-full flex flex-col min-w-0 gap-4">
+      <div className="flex flex-col flex-grow items-center mt-12 lg:mt-0 min-w-0 chat-container">
+        <div className="w-full flex-grow flex flex-col min-w-0 gap-4">
           {/* Mobile: Show instructions and visualizer stacked */}
           <div className="lg:hidden w-full min-w-0 flex flex-col gap-4">
             <Instructions />
             {renderVisualizer()}
           </div>
-          
+
           {/* Desktop: Show instructions at top, visualizer in middle */}
-          <div className="hidden lg:flex lg:flex-col lg:h-full lg:min-w-0 w-full">
-            <div className="flex items-center justify-center w-full min-w-0">
+          <div className="hidden lg:flex lg:flex-col lg:flex-grow lg:min-w-0 w-full chat-desktop-layout">
+            <div className="flex items-center justify-center w-full min-w-0 chat-instructions-wrapper">
               <Instructions />
             </div>
-            <div className="grow h-full flex items-center justify-center min-w-0">
+
+            {/* Button for short screens - show after instructions */}
+            <div className="hidden [@media(max-height:800px)]:flex my-2 flex-shrink-0 items-center justify-center w-full">
+              {renderConnectionControl()}
+            </div>
+
+            <div className="flex-grow flex items-center justify-center min-w-0 chat-visualizer-wrapper">
               <div className="w-full min-w-0">
                 {!isEditingInstructions && renderVisualizer()}
               </div>
             </div>
           </div>
-          
+
           <GrokImageFeed />
         </div>
 
-        <div className="my-4">{renderConnectionControl()}</div>
+        {/* Button for normal screens - show after visualizer */}
+        <div className="my-4 flex-shrink-0 [@media(max-height:800px)]:hidden">
+          {renderConnectionControl()}
+        </div>
       </div>
     </div>
   );
