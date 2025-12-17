@@ -135,7 +135,7 @@ if __name__ == "__main__":
                 >
                   LiveKit Agents
                 </a>{" "}
-                to get started with the Grok Realtime API.
+                to get started with the Grok Voice Agent API.
               </DialogDescription>
             </DialogHeader>
           </div>

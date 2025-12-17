@@ -16,7 +16,7 @@ export function Header() {
                 Live API Playground
               </h2>
               <p className="text-sm text-gray-500">
-                Try xAI&apos;s Grok Realtime API right from
+                Try xAI&apos;s Grok Voice Agent API right from
                 your browser.
               </p>
             </div>

@@ -55,7 +55,7 @@ export function ModelSelector({ form, ...props }: ConfigurationFormFieldProps) {
                   <p className="text-fg2">{modelsData[field.value].description}</p>
                 </div>
               ) : (
-                <p>Choose a Grok realtime model</p>
+                <p>Choose a Grok voice model</p>
               )}
             </HoverCardContent>
           </HoverCard>

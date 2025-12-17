@@ -110,10 +110,10 @@ export function AuthDialog({
               >
                 <DialogHeader className="gap-2">
                   <DialogTitle>
-                    Grok Realtime API Playground
+                    Grok Voice Agent API Playground
                   </DialogTitle>
                   <DialogDescription>
-                    Try out xAI&apos;s Grok Realtime API
+                    Try out xAI&apos;s Grok Voice Agent API
                     right from your browser with this playground built on{" "}
                     <Link
                       href="https://github.com/livekit/agents"

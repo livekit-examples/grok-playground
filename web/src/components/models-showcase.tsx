@@ -30,7 +30,7 @@ export function ModelsShowcase({ onSelectModel, currentModel, onOpenChange }: Mo
   };
 
   const getCategoryDescription = (category: ModelCategory) => {
-    if (category === ModelCategory.REALTIME) {
+    if (category === ModelCategory.VOICE_AGENT) {
       return "Natural speech with low latency voice interactions and real-time capabilities";
     }
     return "Voice model optimized for production use";
@@ -55,7 +55,7 @@ export function ModelsShowcase({ onSelectModel, currentModel, onOpenChange }: Mo
               Available Models
             </DialogTitle>
             <DialogDescription className="text-base text-fg1 mt-2">
-              Choose from {models.length} Grok models optimized for realtime interactions.
+              Choose from {models.length} Grok models optimized for voice interactions.
             </DialogDescription>
           </DialogHeader>
         </div>
@@ -121,7 +121,7 @@ export function ModelsShowcase({ onSelectModel, currentModel, onOpenChange }: Mo
 
         <div className="px-6 py-4 border-t border-separator1 bg-bg1">
           <p className="text-xs text-fg2">
-            <span className="font-semibold">Tip:</span> Grok realtime models provide natural speech with low latency voice interactions.
+            <span className="font-semibold">Tip:</span> Grok Voice Agent API provides natural speech with low latency voice interactions.
           </p>
         </div>
       </DialogContent>
