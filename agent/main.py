@@ -100,7 +100,11 @@ async def entrypoint(ctx: JobContext):
     
     # Parse metadata with error handling
     try:
-        metadata = json.loads(participant.metadata) if participant.metadata else {}
+        raw_metadata = participant.metadata
+        if raw_metadata and isinstance(raw_metadata, str):
+            metadata = json.loads(raw_metadata)
+        else:
+            metadata = {}
     except json.JSONDecodeError as e:
         logger.warning(f"Failed to parse participant metadata: {e}. Using default config.")
         metadata = {}

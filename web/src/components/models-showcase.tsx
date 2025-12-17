@@ -30,10 +30,10 @@ export function ModelsShowcase({ onSelectModel, currentModel, onOpenChange }: Mo
   };
 
   const getCategoryDescription = (category: ModelCategory) => {
-    if (category === ModelCategory.NATIVE_AUDIO) {
-      return "Most natural speech with emotion-aware dialogue, proactive audio, and thinking capabilities";
+    if (category === ModelCategory.REALTIME) {
+      return "Natural speech with low latency voice interactions and real-time capabilities";
     }
-    return "Cascaded architecture with better performance and reliability for production, especially with tool use";
+    return "Voice model optimized for production use";
   };
 
   return (
