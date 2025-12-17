@@ -73,7 +73,7 @@ export function Instructions() {
             ) : (
               <ChevronRight className="h-3 w-3" />
             )}
-            <span>Grok Image Generation Instructions Included</span>
+            <span>Grok Imagine Instructions Included</span>
           </button>
           {isExpanded && (
             <div className="mt-2 p-2 text-xs font-mono leading-loose text-neutral-500 whitespace-pre-wrap">

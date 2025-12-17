@@ -17,6 +17,7 @@ export interface Voice {
   type: string;
   tone: string;
   description: string;
+  audioSampleUrl: string;
 }
 
 export const voicesData: Record<VoiceId, Voice> = {
@@ -26,6 +27,7 @@ export const voicesData: Record<VoiceId, Voice> = {
     type: "Female",
     tone: "Warm, friendly",
     description: "Default voice, balanced and conversational",
+    audioSampleUrl: "https://data.x.ai/audio-samples/voice_ara.mp3",
   },
   [VoiceId.REX]: {
     id: VoiceId.REX,
@@ -33,6 +35,7 @@ export const voicesData: Record<VoiceId, Voice> = {
     type: "Male",
     tone: "Confident, clear",
     description: "Professional and articulate, ideal for business applications",
+    audioSampleUrl: "https://data.x.ai/audio-samples/voice_rex.mp3",
   },
   [VoiceId.SAL]: {
     id: VoiceId.SAL,
@@ -40,6 +43,7 @@ export const voicesData: Record<VoiceId, Voice> = {
     type: "Neutral",
     tone: "Smooth, balanced",
     description: "Versatile voice suitable for various contexts",
+    audioSampleUrl: "https://data.x.ai/audio-samples/voice_sal.mp3",
   },
   [VoiceId.EVE]: {
     id: VoiceId.EVE,
@@ -47,6 +51,7 @@ export const voicesData: Record<VoiceId, Voice> = {
     type: "Female",
     tone: "Energetic, upbeat",
     description: "Engaging and enthusiastic, great for interactive experiences",
+    audioSampleUrl: "https://data.x.ai/audio-samples/voice_eve.mp3",
   },
   [VoiceId.LEO]: {
     id: VoiceId.LEO,
@@ -54,6 +59,7 @@ export const voicesData: Record<VoiceId, Voice> = {
     type: "Male",
     tone: "Authoritative, strong",
     description: "Decisive and commanding, suitable for instructional content",
+    audioSampleUrl: "https://data.x.ai/audio-samples/voice_leo.mp3",
   },
 };
 

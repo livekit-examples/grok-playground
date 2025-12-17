@@ -3,13 +3,7 @@
 import React, { useEffect } from "react";
 import { usePlaygroundState } from "@/hooks/use-playground-state";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -47,13 +41,14 @@ export function Auth() {
     <div>
       {pgState.xaiAPIKey && (
         <div className="text-xs flex gap-2 items-center">
-          <span className="font-semibold text-neutral-400">
-            Using xAI API Key
-          </span>
-          <div className="py-1 px-2 rounded-md bg-neutral-200 text-neutral-600">
+          <span className="font-medium text-fg2">Using xAI API Key</span>
+          <div className="py-1 px-2 rounded-md bg-bg3 text-fg1 font-mono">
             {ellipsisMiddle(pgState.xaiAPIKey, 4, 4)}
           </div>
-          <a className="hover:underline cursor-pointer" onClick={onLogout}>
+          <a
+            className="text-fg2 hover:text-fgAccent1 transition-colors cursor-pointer"
+            onClick={onLogout}
+          >
             Clear
           </a>
         </div>
@@ -98,59 +93,63 @@ export function AuthDialog({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
-        className="sm:max-w-md p-0 rounded-lg overflow-hidden max-h-[90vh] flex flex-col"
+        className="sm:max-w-xl p-0 rounded-lg overflow-hidden max-h-[90vh] flex flex-col"
         isModal={true}
       >
         <div className="overflow-y-auto">
-          <div className="px-6 pb-6 pt-4 overflow-y-auto">
+          {/* Header with tab-style title */}
+          <div className="flex h-[42px] w-full bg-bg1 px-6 border-b border-separator1">
+            <div className="translate-y-px px-1 pb-0.5 font-semibold text-fg0 border-b-2 border-b-fgAccent1 flex items-center">
+              API Key Setup
+            </div>
+          </div>
+
+          <div className="px-6 pb-6 pt-6 overflow-y-auto">
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="flex flex-col gap-4"
               >
-                <DialogHeader className="gap-2">
-                  <DialogTitle>
-                    Grok Voice Agent API Playground
-                  </DialogTitle>
-                  <DialogDescription>
-                    Try out xAI&apos;s Grok Voice Agent API
-                    right from your browser with this playground built on{" "}
+                <div className="flex flex-col gap-3">
+                  <p className="text-sm text-fg1">
+                    Try out xAI&apos;s Grok Voice Agent API right from your
+                    browser with this playground built on{" "}
                     <Link
                       href="https://github.com/livekit/agents"
                       target="_blank"
-                      className="underline"
+                      className="underline text-fgAccent1 hover:text-fgAccent1/80"
                       onClick={(e) => e.stopPropagation()}
                     >
                       LiveKit Agents
                     </Link>
                     .
-                  </DialogDescription>
-                  <DialogDescription>
+                  </p>
+                  <p className="text-sm text-fg1">
                     You must have a valid{" "}
                     <Link
                       href="https://console.x.ai/"
                       target="_blank"
-                      className="underline text-grok-orange"
+                      className="underline text-fg0 hover:text-fgAccent1"
                       onClick={(e) => e.stopPropagation()}
                     >
                       xAI API key
                     </Link>{" "}
                     to connect the playground to your xAI account.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="bg-black/10 h-[1px] w-full" />
+                  </p>
+                </div>
+                <div className="h-[1px] w-full bg-separator1" />
                 <FormField
                   control={form.control}
                   name="xaiAPIKey"
                   render={({ field }) => (
                     <FormItem>
                       <div className="flex flex-col gap-2">
-                        <FormLabel className="font-semibold text-sm whitespace-nowrap">
+                        <FormLabel className="font-medium text-sm text-fg0">
                           Enter your{" "}
                           <Link
                             href="https://console.x.ai/"
                             target="_blank"
-                            className="inline-flex items-center text-grok-orange underline"
+                            className="inline-flex items-center text-fg0 hover:text-fgAccent1 underline transition-colors"
                             onClick={(e) => e.stopPropagation()}
                           >
                             xAI API Key
@@ -160,20 +159,21 @@ export function AuthDialog({
                         <div className="flex gap-2 w-full items-center">
                           <FormControl className="w-full">
                             <Input
-                              className="w-full h-9"
-                              placeholder="xAI API Key"
+                              className="w-full h-10"
+                              placeholder="xai-..."
                               {...field}
                               onKeyDown={(e) => {
-                                if (e.key === 'Enter') {
+                                if (e.key === "Enter") {
                                   e.preventDefault();
                                   form.handleSubmit(onSubmit)();
                                 }
                               }}
                             />
                           </FormControl>
-                          <Button 
+                          <Button
                             type="button"
-                            className="h-9"
+                            variant="primary"
+                            className="h-10"
                             onClick={(e) => {
                               e.preventDefault();
                               onSubmit(form.getValues());
@@ -187,26 +187,24 @@ export function AuthDialog({
                     </FormItem>
                   )}
                 />
-                <div className="text-xs text-fg1 py-2 flex justify-between items-center">
-                  <div className="flex items-center gap-2 flex-1">
-                    <LockKeyhole className="h-3 w-3 flex-shrink-0" />
-                    <span className="font-semibold">
+                <div className="text-xs text-fg2 py-2 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                  <div className="flex items-center gap-2">
+                    <LockKeyhole className="h-3.5 w-3.5 flex-shrink-0 text-fg2" />
+                    <span>
                       Your key is stored only in your browser&apos;s
                       LocalStorage.
                     </span>
                   </div>
 
-                  <div className="flex items-center flex-1 justify-end">
-                    <a
-                      href="https://github.com/livekit-examples/grok-playground"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline flex items-center gap-1"
-                    >
-                      <GitHubLogoIcon className="h-5 w-5" />
-                      View source on GitHub
-                    </a>
-                  </div>
+                  <a
+                    href="https://github.com/livekit-examples/grok-playground"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-fg1 hover:text-fgAccent1 transition-colors"
+                  >
+                    <GitHubLogoIcon className="h-4 w-4" />
+                    <span>View source on GitHub</span>
+                  </a>
                 </div>
               </form>
             </Form>

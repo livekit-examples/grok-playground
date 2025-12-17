@@ -101,8 +101,8 @@ export const playgroundStateHelpers = {
   },
 
   /**
-   * Checks if the immutable Grok Image Generation prompt should be used
-   * Returns true if Grok Image Generation is enabled AND the current preset is NOT the creative-artist preset
+   * Checks if the immutable Grok Imagine prompt should be used
+   * Returns true if Grok Imagine is enabled AND the current preset is NOT the creative-artist preset
    */
   shouldUseImmutablePrompt: (state: PlaygroundState): boolean => {
     const { sessionConfig, selectedPresetId } = state;

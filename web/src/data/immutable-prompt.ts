@@ -1,6 +1,6 @@
 /**
  * Additional system prompt that is prepended to all presets
- * when Grok Image Generation is enabled (except for the Grok Image Artist preset itself)
+ * when Grok Imagine is enabled (except for the Grok Imagine Artist preset itself)
  *
  * This ensures consistent behavior for image generation across all presets
  */

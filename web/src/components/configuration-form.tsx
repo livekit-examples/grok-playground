@@ -20,14 +20,12 @@ import {
 import { ConnectionState } from "livekit-client";
 import { defaultSessionConfig } from "@/data/playground-state";
 import { useToast } from "@/hooks/use-toast";
-import { ModalitiesId } from "@/data/modalities";
 
 // Configuration changes that require full reconnection instead of hot-reload
 const RECONNECT_REQUIRED_FIELDS = ["voice", "grok_image_enabled"];
 
 export const ConfigurationFormSchema = z.object({
   model: z.nativeEnum(ModelId),
-  modalities: z.nativeEnum(ModalitiesId),
   voice: z.nativeEnum(VoiceId),
   temperature: z.number().min(0.6).max(1.2),
   maxOutputTokens: z.number().nullable(),
@@ -70,7 +68,6 @@ export function ConfigurationForm() {
       instructions: fullInstructions,
       model: values.model,
       voice: values.voice,
-      modalities: values.modalities,
       temperature: values.temperature,
       max_output_tokens: values.maxOutputTokens || "",
       grok_image_enabled: values.grokImageEnabled,

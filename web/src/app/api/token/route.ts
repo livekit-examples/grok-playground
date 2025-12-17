@@ -22,7 +22,7 @@ export async function POST(request: Request) {
   const {
     instructions,
     xaiAPIKey,
-    sessionConfig: { model, modalities, voice, temperature, maxOutputTokens, grokImageEnabled },
+    sessionConfig: { model, voice, temperature, maxOutputTokens, grokImageEnabled },
   } = playgroundState;
 
     if (!xaiAPIKey) {
@@ -43,7 +43,6 @@ export async function POST(request: Request) {
     const metadata = {
       instructions: instructions,
       model: model,
-      modalities: modalities,
       voice: voice,
       temperature: temperature,
       max_output_tokens: maxOutputTokens,

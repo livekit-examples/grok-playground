@@ -25,7 +25,7 @@ export function GrokImageToggle({ form }: ConfigurationFormFieldProps) {
       render={({ field }) => (
         <FormItem className="flex flex-row items-center space-y-0 justify-between px-1">
           <FormLabel className="text-sm font-medium text-fg1">
-            🎨 Grok Image
+            Grok Imagine
           </FormLabel>
           <HoverCard openDelay={200} open={hoverCardOpen} onOpenChange={setHoverCardOpen}>
             <HoverCardTrigger asChild>

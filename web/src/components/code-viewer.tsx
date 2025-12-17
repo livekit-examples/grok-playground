@@ -26,10 +26,8 @@ export function CodeViewer() {
     maxLineLength: number = 80
   ): string => {
     // For Python triple-quoted strings: escape backslashes, then double quotes
-    const escaped = instructions
-      .replace(/\\/g, '\\\\')
-      .replace(/"/g, '\\"');
-    
+    const escaped = instructions.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+
     return escaped
       .split(/\s+/)
       .reduce(
@@ -56,11 +54,7 @@ async def entrypoint(ctx: JobContext):
 
     session = AgentSession(
         llm=xai.RealtimeModel(
-            model="${pgState.sessionConfig.model}",
             voice="${pgState.sessionConfig.voice}",
-            temperature=${pgState.sessionConfig.temperature},${pgState.sessionConfig.maxOutputTokens !== null ? `
-            max_output_tokens=${pgState.sessionConfig.maxOutputTokens},` : ''}
-            modalities=${pgState.sessionConfig.modalities == "text_and_audio" ? '["TEXT", "AUDIO"]' : pgState.sessionConfig.modalities === "audio_only" ? '["AUDIO"]' : '["TEXT"]'},
         )
     )
 
@@ -75,7 +69,9 @@ async def entrypoint(ctx: JobContext):
         instructions="Greet the user and offer your assistance."
     )
 
-${pgState.sessionConfig.grokImageEnabled ? `
+${
+  pgState.sessionConfig.grokImageEnabled
+    ? `
 # Image generation is enabled in this playground!
 # To add image generation to your agent, see the full implementation:
 # https://github.com/livekit-examples/grok-playground/blob/main/agent/main.py
@@ -87,17 +83,19 @@ ${pgState.sessionConfig.grokImageEnabled ? `
 # 4. Receive byte streams on the frontend with registerByteStreamHandler
 # 
 # Learn more:
-# - Grok Image Generation: https://docs.x.ai/docs/guides/image-generation
+# - Grok Imagine: https://docs.x.ai/docs/guides/image-generation
 # - Function Tools: https://docs.livekit.io/agents/tools/
-` : `
+`
+    : `
 # Note: This example doesn't include image generation.
-# The Grok playground supports image generation via the "Grok Image" toggle.
+# The Grok playground supports image generation via the "Grok Imagine" toggle.
 # Source code (Python example) available at: https://github.com/livekit-examples/grok-playground/blob/main/agent/main.py
 # 
 # To learn how to add custom tools and byte stream communication:
-# - Grok Image Generation: https://docs.x.ai/docs/guides/image-generation
+# - Grok Imagine: https://docs.x.ai/docs/guides/image-generation
 # - Function Tools: https://docs.livekit.io/agents/tools/
-`}
+`
+}
 
 if __name__ == "__main__":
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint))
@@ -140,7 +138,7 @@ if __name__ == "__main__":
             </DialogHeader>
           </div>
         </div>
-        
+
         <div className="flex-1 flex flex-col overflow-hidden bg-bg0">
           <div className="relative flex-1 overflow-hidden group">
             <Button
@@ -152,19 +150,33 @@ if __name__ == "__main__":
               {copied ? "Copied!" : "Copy"}
             </Button>
             <div className="h-full overflow-auto [&>pre]:!m-0 [&>pre]:!p-4 sm:[&>pre]:!p-6 [&>pre]:!bg-[#000000] [&>pre]:h-full">
-              <SyntaxHighlighter language="python" style={theme} customStyle={{ margin: 0, padding: '1rem', background: '#000000' }}>
+              <SyntaxHighlighter
+                language="python"
+                style={theme}
+                customStyle={{
+                  margin: 0,
+                  padding: "1rem",
+                  background: "#000000",
+                }}
+              >
                 {pythonCode}
               </SyntaxHighlighter>
             </div>
           </div>
         </div>
-        
+
         <div className="flex items-center justify-end gap-3 border-t border-separator1 px-4 sm:px-6 py-4 bg-bg1">
-          <Button 
+          <Button
             variant="primary"
             size="lg"
             leftIcon={<ArrowUpRight />}
-            onClick={() => window.open('https://docs.livekit.io/agents', '_blank', 'noopener,noreferrer')}
+            onClick={() =>
+              window.open(
+                "https://docs.livekit.io/agents",
+                "_blank",
+                "noopener,noreferrer"
+              )
+            }
             className="w-full sm:w-auto"
           >
             Get building!

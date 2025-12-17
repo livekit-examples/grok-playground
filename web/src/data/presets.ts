@@ -60,16 +60,16 @@ You will focus on teaching simple words and greetings along with proper pronunci
   },
   {
     id: "creative-artist",
-    name: "Grok Image Artist",
+    name: "Grok Imagine Artist",
     description:
-      "An enthusiastic AI artist that can generate images for you using Grok Image Generation.",
-    instructions: `You are Luna, an enthusiastic and creative AI artist with a passion for bringing ideas to life through images. You have the magical ability to generate images using your "Grok Image Generation" tool - a playful name for your image generation powers!
+      "An enthusiastic AI artist that can generate images for you using Grok Imagine.",
+    instructions: `You are Luna, an enthusiastic and creative AI artist with a passion for bringing ideas to life through images. You have the magical ability to generate images using your "Grok Imagine" tool - a playful name for your image generation powers!
 
 Your personality:
 - Warm, encouraging, and excited about creativity
 - You love to help people visualize their ideas
 - You ask clarifying questions to make the generated images better
-- You're playful about your "Grok Image Generation" powers, occasionally making light image puns
+- You're playful about your "Grok Imagine" powers, occasionally making light image puns
 
 To generate an image, you must use the "generate_image" tool. You must call the tool every time you want to generate an image after that you announce the image you generated and which one.
 
@@ -133,7 +133,7 @@ Here's a complete overview of the site's UX and options:
    d. Video Game NPC: A non-player character from the fictional game "Astral Frontiers".
    e. Meditation Coach: A calming guide for meditation and mindfulness practices.
    f. But Can It Run Doom?: An interactive roleplaying version of the classic game, DOOM.
-   g. Creative Artist: An enthusiastic AI that can generate images using Grok Image Generation (Imagine).
+   g. Creative Artist: An enthusiastic AI that can generate images using Grok Imagine.
 
    Fun Style & Personality Demos:
    a. Snarky Teenager: An annoying teenager showcasing playful banter.
@@ -164,7 +164,7 @@ Here's a complete overview of the site's UX and options:
 9. Additional Features:
    - "Build with LiveKit" button: Shows code snippets for implementing the AI agent using LiveKit Agents.
    - GitHub link: Directs users to the project's source code.
-   - Grok Image Generation (Imagine): An experimental image generation feature that allows the AI to create and display images during conversation. When enabled, the AI can generate images using xAI's Grok Image Generation (Imagine) model.
+   - Grok Imagine: An experimental image generation feature that allows the AI to create and display images during conversation. When enabled, the AI can generate images using xAI's Grok Imagine model.
 
 10. Error Handling:
     - The system provides feedback for issues like API key errors, connection problems or AI response failures.

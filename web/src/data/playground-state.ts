@@ -1,11 +1,9 @@
-import { ModalitiesId } from "@/data/modalities";
 import { VoiceId } from "@/data/voices";
 import { Preset } from "./presets";
 import { ModelId } from "./models";
 
 export interface SessionConfig {
   model: ModelId;
-  modalities: ModalitiesId;
   voice: VoiceId;
   temperature: number;
   maxOutputTokens: number | null;
@@ -22,7 +20,6 @@ export interface PlaygroundState {
 
 export const defaultSessionConfig: SessionConfig = {
   model: ModelId.GROK_1118,
-  modalities: ModalitiesId.AUDIO_ONLY,
   voice: VoiceId.ARA,
   temperature: 0.8,
   maxOutputTokens: null,
