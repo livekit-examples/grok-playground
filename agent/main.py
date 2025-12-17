@@ -78,7 +78,7 @@ def parse_session_config(data: Dict[str, Any]) -> SessionConfig:
     config = SessionConfig(
         xai_api_key=data.get("xai_api_key", ""),
         instructions=data.get("instructions", ""),
-        model=data.get("model", "grok-1118"),
+        model=data.get("model", "grok-4-1-fast-non-reasoning"),
         voice=data.get("voice", "ara"),
         temperature=float(data.get("temperature", 0.8)),
         max_response_output_tokens=
@@ -203,7 +203,7 @@ class SessionManager:
     def create_session(self, config: SessionConfig) -> AgentSession:
         """Create an AgentSession with the given configuration"""
         session = AgentSession(
-            llm=xai.RealtimeModel(
+            llm=xai.realtime.RealtimeModel(
                 voice=config.voice,
                 api_key=config.xai_api_key,
             )
