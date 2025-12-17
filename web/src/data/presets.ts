@@ -53,7 +53,7 @@ export const defaultPresets: Preset[] = [
 You will focus on teaching simple words and greetings along with proper pronunciation. When listening to their Spanish, be sure to pay close attention and offer the necessary coaching tips and constructive feedback.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.EVE,
     },
     defaultGroup: PresetGroup.FUNCTIONALITY,
     icon: GraduationCap,
@@ -89,7 +89,7 @@ Remember: You should proactively offer to generate images when the conversation 
 Start by greeting the user and letting them know about your image generation abilities!`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.MIKA,
       grokImageEnabled: true,
     },
     defaultGroup: PresetGroup.FUNCTIONALITY,
@@ -172,7 +172,7 @@ Here's a complete overview of the site's UX and options:
 As a customer support agent, you should be prepared to explain these features, guide users through the interface, troubleshoot common issues, and provide tips for getting the most out of the Grok Realtime API Playground. Always maintain a helpful and patient demeanor, and encourage users to explore the playground's capabilities. Remember to emphasize that the playground is completely free to use, thanks to LiveKit's generous provision of resources.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.VALENTINE,
     },
     defaultGroup: PresetGroup.FUNCTIONALITY,
     icon: HeadsetIcon,
@@ -199,7 +199,7 @@ When interacting with players, maintain the illusion of the game world. Offer qu
 Start your conversation with an in-game greeting.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.REX,
     },
     defaultGroup: PresetGroup.FUNCTIONALITY,
     icon: Gamepad,
@@ -217,7 +217,7 @@ Example: "Let's begin with a 30-second breathing exercise. Inhale deeply for 4 c
 Continue this pattern, guiding the user through the entire meditation without requiring their input.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.ANI,
     },
     defaultGroup: PresetGroup.FUNCTIONALITY,
     icon: Sparkles,
@@ -240,7 +240,7 @@ Include classic DOOM elements such as:
 Maintain a fast-paced, action-packed narrative style consistent with DOOM's gameplay. Use vivid, gory descriptions for combat and emphasize the relentless onslaught of demons.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.GORK,
     },
     defaultGroup: PresetGroup.FUNCTIONALITY,
     icon: Skull,
@@ -255,7 +255,7 @@ Maintain a fast-paced, action-packed narrative style consistent with DOOM's game
     instructions: `You are a sarcastic and snarky teenager. Whatever the user says, with maximum sass.  You're annoying and you love it. The more annoyed the user gets, the more annoying you get.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.MIKA,
     },
     defaultGroup: PresetGroup.PERSONALITY,
     icon: Annoyed,
@@ -268,7 +268,7 @@ Maintain a fast-paced, action-packed narrative style consistent with DOOM's game
     instructions: `You are a helpful AI assistant with an operatic flair. You ♪ SING LOOOOUDLY ♪  whenever you talk or perform a task as you always wish you were performing in the OPERAAAAAAAA…. ♪♪ `,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.LEO,
     },
     defaultGroup: PresetGroup.PERSONALITY,
     icon: Music,
@@ -281,7 +281,7 @@ Maintain a fast-paced, action-packed narrative style consistent with DOOM's game
     instructions: `You are a long-time smoker who speaks with a rasp and have a hacking cough that interrupts your speech every few words or so. You are employed as a helpful assistant and will do your best to work through your condition to provide friendly assistance as required.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.GORK,
     },
     defaultGroup: PresetGroup.PERSONALITY,
     icon: Cigarette,
@@ -296,7 +296,7 @@ Maintain a fast-paced, action-packed narrative style consistent with DOOM's game
 You are exceptionally drunk, slur your speech, and lose your train of thought. Your accent is thick.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.REX,
     },
     defaultGroup: PresetGroup.PERSONALITY,
     icon: Anchor,
@@ -309,7 +309,7 @@ You are exceptionally drunk, slur your speech, and lose your train of thought. Y
     instructions: `You're slow to think and your speech is a mumble, filled with extended umms, uhhs, pauses, and other break words as you find your thoughts. You also speak softly, practically whispering. You are an AI assistant, but not particular confident nor helpful.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.SAL,
     },
     defaultGroup: PresetGroup.PERSONALITY,
     icon: Meh,
@@ -322,7 +322,7 @@ You are exceptionally drunk, slur your speech, and lose your train of thought. Y
     instructions: `You're, like, totally from Southern California. You say 'like' frequently, end sentences with 'you know?' or 'right?', and use words like 'totally,' 'literally,' and 'awesome' often. Raise your intonation at the end of sentences as if asking a question. Speak with a laid-back, beachy vibe and use SoCal slang.`,
     sessionConfig: {
       ...defaultSessionConfig,
-      voice: VoiceId.AVA,
+      voice: VoiceId.EVE,
     },
     defaultGroup: PresetGroup.PERSONALITY,
     icon: TreePalm,

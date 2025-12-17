@@ -25,7 +25,6 @@ from livekit.agents import (
 from livekit.plugins import xai
 from xai_sdk import Client
 
-
 load_dotenv(dotenv_path=".env.local")
 
 logger = logging.getLogger("grok-playground")
@@ -80,7 +79,7 @@ def parse_session_config(data: Dict[str, Any]) -> SessionConfig:
         xai_api_key=data.get("xai_api_key", ""),
         instructions=data.get("instructions", ""),
         model=data.get("model", "grok-1118"),
-        voice=data.get("voice", "Ava"),
+        voice=data.get("voice", "ara"),
         temperature=float(data.get("temperature", 0.8)),
         max_response_output_tokens=
             "inf" if data.get("max_output_tokens") == "inf"
@@ -201,7 +200,7 @@ class SessionManager:
         """Create an AgentSession with the given configuration"""
         session = AgentSession(
             llm=xai.RealtimeModel(
-                voice=config.voice,
+                voice=config.voice.lower(),
                 api_key=config.xai_api_key,
             )
         )

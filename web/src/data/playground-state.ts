@@ -23,7 +23,7 @@ export interface PlaygroundState {
 export const defaultSessionConfig: SessionConfig = {
   model: ModelId.GROK_1118,
   modalities: ModalitiesId.AUDIO_ONLY,
-  voice: VoiceId.AVA,
+  voice: VoiceId.ARA,
   temperature: 0.8,
   maxOutputTokens: null,
   grokImageEnabled: false,

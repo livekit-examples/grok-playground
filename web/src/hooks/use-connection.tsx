@@ -38,7 +38,7 @@ export const ConnectionProvider = ({
     token: string;
     shouldConnect: boolean;
     voice: VoiceId;
-  }>({ wsUrl: "", token: "", shouldConnect: false, voice: VoiceId.PUCK });
+  }>({ wsUrl: "", token: "", shouldConnect: false, voice: VoiceId.ARA });
 
   const { pgState } = usePlaygroundState();
 
