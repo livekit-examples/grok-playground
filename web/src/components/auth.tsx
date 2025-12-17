@@ -92,10 +92,7 @@ export function AuthDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className="sm:max-w-xl p-0 rounded-lg overflow-hidden max-h-[90vh] flex flex-col"
-        isModal={true}
-      >
+      <DialogContent className="sm:max-w-xl p-0 rounded-lg overflow-hidden max-h-[90vh] flex flex-col">
         <div className="overflow-y-auto">
           {/* Header with tab-style title */}
           <div className="flex h-[42px] w-full bg-bg1 px-6 border-b border-separator1">

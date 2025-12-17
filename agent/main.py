@@ -27,6 +27,8 @@ from xai_sdk import Client
 
 load_dotenv(dotenv_path=".env.local")
 
+# To enable realtime API debug logging: os.environ["LK_OPENAI_DEBUG"] = "1"
+
 logger = logging.getLogger("grok-playground")
 logger.setLevel(logging.INFO)
 
@@ -36,28 +38,25 @@ logging.getLogger("opentelemetry.attributes").setLevel(logging.ERROR)
 
 @dataclass
 class SessionConfig:
+    """Session configuration
+    
+    Note: xai.RealtimeModel only uses 'voice' and 'xai_api_key'.
+    Other parameters (model, temperature, max_response_output_tokens) 
+    are stored for config comparison and potential future use, but are not passed 
+    to RealtimeModel as they're hardcoded in the plugin:
+    - model: always "grok-1118"
+    - temperature/max_response_output_tokens: not supported
+    """
     xai_api_key: str
-    instructions: str
-    model: str
-    voice: str
-    temperature: float
-    max_response_output_tokens: str | int
-    modalities: list[str]
-    grok_image_enabled: bool = False
+    instructions: str 
+    model: str 
+    voice: str 
+    temperature: float 
+    max_response_output_tokens: str | int 
+    grok_image_enabled: bool = False 
 
     def to_dict(self):
         return {k: v for k, v in asdict(self).items() if k != "xai_api_key"}
-
-    @staticmethod
-    def _modalities_from_string(
-        modalities: str,
-    ) -> list[str]:
-        modalities_map: Dict[str, List[str]] = {
-            "text_and_audio": ["text", "audio"],
-            "text_only": ["text"],
-            "audio_only": ["audio"],
-        }
-        return modalities_map.get(modalities, modalities_map["audio_only"])
 
     def __eq__(self, other) -> bool:
         return self.to_dict() == other.to_dict()
@@ -78,15 +77,12 @@ def parse_session_config(data: Dict[str, Any]) -> SessionConfig:
     config = SessionConfig(
         xai_api_key=data.get("xai_api_key", ""),
         instructions=data.get("instructions", ""),
-        model=data.get("model", "grok-4-1-fast-non-reasoning"),
+        model=data.get("model", "grok-1118"),
         voice=data.get("voice", "ara"),
         temperature=float(data.get("temperature", 0.8)),
         max_response_output_tokens=
             "inf" if data.get("max_output_tokens") == "inf"
             else int(data.get("max_output_tokens") or 2048),
-        modalities=SessionConfig._modalities_from_string(
-            data.get("modalities", "audio_only")
-        ),
         grok_image_enabled=grok_image_enabled,
     )
     return config
@@ -117,13 +113,59 @@ async def entrypoint(ctx: JobContext):
     logger.info("agent started")
 
 
+async def _generate_image_background(session_manager, prompt: str):
+    """Background task that generates the image and notifies the user when done"""
+    try:
+        # Use xAI SDK for image generation
+        client = Client(api_key=session_manager.current_config.xai_api_key)
+        
+        # Run synchronous image generation in a thread to avoid blocking event loop
+        response = await asyncio.to_thread(
+            lambda: client.image.sample(
+                model='grok-2-image',
+                prompt=prompt,
+                image_format="base64"
+            )
+        )
+        
+        # Get the image bytes from response
+        image_bytes = response.image
+        
+        # Compress the image to reduce size
+        img = Image.open(BytesIO(image_bytes))
+        # Resize to max 512x512 to keep it small
+        img.thumbnail((512, 512), Image.Resampling.LANCZOS)
+        
+        # Save to bytes buffer
+        buffer = BytesIO()
+        img.save(buffer, format='JPEG', quality=90, optimize=True)
+        image_data = buffer.getvalue()
+        
+        # Send image to frontend using LiveKit's stream_bytes
+        if session_manager.ctx and session_manager.participant:
+            await session_manager.send_image_to_frontend(prompt, image_data)
+        
+        # Notify user that image is ready - short announcement
+        if session_manager.current_session:
+            await session_manager.current_session.generate_reply(
+                instructions="The image has been generated and sent to the user's screen. Give a very brief, natural acknowledgment (1-2 sentences max) like 'Here it is!' or 'Done! Take a look!' - keep it short and casual."
+            )
+    except Exception as e:
+        logger.error(f"Image generation failed: {e}")
+        # Notify user about the error
+        if session_manager.current_session:
+            await session_manager.current_session.generate_reply(
+                instructions=f"Image generation failed with error: {str(e)}. Apologize briefly and offer to try again."
+            )
+
+
 def create_generate_image_tool(session_manager):
     """Factory function to create the generate_image tool with access to session_manager"""
 
     raw_schema = {
         "type": "function",
         "name": "generate_image",
-        "description": "Generate an image using Grok Image Generation and send it to the user",
+        "description": "Generate an image using Grok Imagine and send it to the user. This runs in the background - return immediately with a brief acknowledgment.",
         "parameters": {
             "type": "object",
             "properties": {
@@ -144,40 +186,11 @@ def create_generate_image_tool(session_manager):
         # Extract prompt from raw_arguments when using raw_schema
         prompt = raw_arguments["prompt"]
         
-        try:
-            # Use xAI SDK for image generation
-            client = Client(api_key=session_manager.current_config.xai_api_key)
-            
-            # Run synchronous image generation in a thread to avoid blocking event loop
-            response = await asyncio.to_thread(
-                lambda: client.image.sample(
-                    model='grok-2-image',
-                    prompt=prompt,
-                    image_format="base64"
-                )
-            )
-            
-            # Get the image bytes from response
-            image_bytes = response.image
-            
-            # Compress the image to reduce size
-            img = Image.open(BytesIO(image_bytes))
-            # Resize to max 512x512 to keep it small
-            img.thumbnail((512, 512), Image.Resampling.LANCZOS)
-            
-            # Save to bytes buffer
-            buffer = BytesIO()
-            img.save(buffer, format='JPEG', quality=90, optimize=True)
-            image_data = buffer.getvalue()
-            
-            # Send image to frontend using LiveKit's stream_bytes
-            if session_manager.ctx and session_manager.participant:
-                await session_manager.send_image_to_frontend(prompt, image_data)
-            
-            return "I've generated the image and sent it to your screen!"
-        except Exception as e:
-            logger.error(f"Image generation failed: {e}")
-            return f"Sorry, I couldn't generate that image. Error: {str(e)}"
+        # Start background task for image generation - don't await it
+        asyncio.create_task(_generate_image_background(session_manager, prompt))
+        
+        # Return immediately - tell agent to NOT repeat itself since it already acknowledged in natural conversation
+        return "[SYSTEM: Image is generating in background. You already told the user you'd do this in your previous message - DO NOT repeat yourself. Say nothing, or at most a single word like 'ok' or just continue the conversation naturally. The user will see the image appear on their screen shortly, and you will announce it when ready.]"
     
     return generate_image
 
@@ -201,7 +214,13 @@ class SessionManager:
         self.current_agent: PlaygroundAgent | None = None
 
     def create_session(self, config: SessionConfig) -> AgentSession:
-        """Create an AgentSession with the given configuration"""
+        """Create an AgentSession with the given configuration
+        
+        Note: xai.RealtimeModel only supports 'voice' and 'api_key' parameters.
+        The following are hardcoded in the plugin:
+        - model: always "grok-1118"
+        - temperature, max_response_output_tokens: not supported by RealtimeModel yet
+        """
         session = AgentSession(
             llm=xai.realtime.RealtimeModel(
                 voice=config.voice,
@@ -215,10 +234,12 @@ class SessionManager:
         self.ctx = ctx
         self.participant = participant
         
+        logger.info(f"Starting session with instructions: {self.current_config.instructions[:100]}...")
+        
         # Conditionally add Grok image generation tool
         tools = []
         if self.current_config.grok_image_enabled:
-            logger.info("Grok Image Generation tool enabled 🎨")
+            logger.info("Grok Imagine tool enabled")
             tools.append(create_generate_image_tool(self))
         
         self.current_session = self.create_session(self.current_config)
@@ -227,15 +248,20 @@ class SessionManager:
             tools=tools
         )
         
+        logger.info(f"Agent created with instructions: {self.current_agent.instructions[:100]}...")
+        
         await self.current_session.start(
             room=ctx.room,
             agent=self.current_agent,
         )
         
-        # Greet the user
-        await self.current_session.generate_reply(
-            instructions="Please begin the interaction with the user in a manner consistent with your instructions."
-        )
+        # Explicitly update instructions after session start to ensure they are set
+        logger.info("Explicitly updating instructions after session start...")
+        await self.current_agent.update_instructions(self.current_config.instructions)
+        logger.info("Instructions explicitly updated")
+        
+        # Greet the user - let agent use its configured instructions naturally
+        await self.current_session.generate_reply(user_input="SYSTEM: Please begin the interaction with the user in a manner consistent with your instructions.")
 
         # Register RPC method for config updates
         @ctx.room.local_participant.register_rpc_method("pg.updateConfig")
@@ -289,6 +315,8 @@ class SessionManager:
         if self.current_session is None or self.current_agent is None:
             return
         
+        logger.info(f"Replacing session with new instructions: {config.instructions[:100]}...")
+        
         # Try to preserve chat context from current agent
         chat_ctx = None
         try:
@@ -322,17 +350,24 @@ class SessionManager:
             chat_ctx=chat_ctx
         )
         
+        logger.info(f"New agent created with instructions: {self.current_agent.instructions[:100]}...")
+        
         await self.current_session.start(
             room=ctx.room,
             agent=self.current_agent,
         )
         
+        # Explicitly update instructions after session start to ensure they are set
+        logger.info("Explicitly updating instructions after session restart...")
+        await self.current_agent.update_instructions(config.instructions)
+        logger.info("Instructions explicitly updated")
+        
         # Notify user about the config change
         try:
             if grok_image_newly_enabled:
-                logger.info("Grok Image Generation tool newly enabled")
+                logger.info("Grok Imagine tool newly enabled")
                 await self.current_session.generate_reply(
-                    instructions="Briefly and enthusiastically announce: 'Grok Image Generation is now active! Feel free to ask me to generate an image and I can show you whatever you like!'",
+                    instructions="Briefly and enthusiastically announce: 'Grok Imagine is now active! Feel free to ask me to generate an image and I can show you whatever you like!'",
                 )
             else:
                 logger.info("Session restarted with new config")

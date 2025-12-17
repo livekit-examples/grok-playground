@@ -1,5 +1,5 @@
 import { AccessToken } from "livekit-server-sdk";
-import { RoomAgentDispatch, RoomConfiguration } from '@livekit/protocol';
+import { RoomAgentDispatch, RoomConfiguration } from "@livekit/protocol";
 import { PlaygroundState } from "@/data/playground-state";
 import dotenv from "dotenv";
 import path from "path";
@@ -19,11 +19,17 @@ export async function POST(request: Request) {
       );
     }
 
-  const {
-    instructions,
-    xaiAPIKey,
-    sessionConfig: { model, voice, temperature, maxOutputTokens, grokImageEnabled },
-  } = playgroundState;
+    const {
+      instructions,
+      xaiAPIKey,
+      sessionConfig: {
+        model,
+        voice,
+        temperature,
+        maxOutputTokens,
+        grokImageEnabled,
+      },
+    } = playgroundState;
 
     if (!xaiAPIKey) {
       return Response.json(
@@ -49,7 +55,7 @@ export async function POST(request: Request) {
       grok_image_enabled: grokImageEnabled,
       xai_api_key: xaiAPIKey,
     };
-    
+
     // Create access token
     const at = new AccessToken(apiKey, apiSecret, {
       identity: "human",
@@ -65,13 +71,13 @@ export async function POST(request: Request) {
       canSubscribe: true,
       canUpdateOwnMetadata: true,
     });
-    
+
     // Create room configuration + dispatch agent
     at.roomConfig = new RoomConfiguration({
       name: roomName,
       agents: [
         new RoomAgentDispatch({
-          agentName: 'grok-playground',
+          agentName: "grok-playground",
         }),
       ],
     });
@@ -81,7 +87,10 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     return Response.json(
-      { error: "Error generating token", details: error instanceof Error ? error.message : String(error) },
+      {
+        error: "Error generating token",
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }

@@ -78,12 +78,24 @@ function VoicePlayButton({ voiceId }: { voiceId: VoiceId }) {
       title={`Preview ${voice.name}'s voice`}
     >
       {isPlaying ? (
-        <svg width="12" height="12" viewBox="0 0 14 14" fill="currentColor" className="text-fg1">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 14 14"
+          fill="currentColor"
+          className="text-fg1"
+        >
           <rect x="3" y="2" width="3" height="10" rx="0.5" />
           <rect x="8" y="2" width="3" height="10" rx="0.5" />
         </svg>
       ) : (
-        <svg width="12" height="12" viewBox="0 0 14 14" fill="currentColor" className="text-fg1">
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 14 14"
+          fill="currentColor"
+          className="text-fg1"
+        >
           <path d="M3 2.5v9a.5.5 0 00.75.43l7.5-4.5a.5.5 0 000-.86l-7.5-4.5A.5.5 0 003 2.5z" />
         </svg>
       )}
@@ -99,10 +111,14 @@ export function VoiceSelector({ form, ...props }: ConfigurationFormFieldProps) {
       render={({ field }) => (
         <FormItem className="flex flex-row items-center space-y-0 justify-between px-1">
           <div className="flex items-center gap-2">
-            <FormLabel className="text-sm font-medium text-fg1">Voice</FormLabel>
-            <VoicesShowcase 
+            <FormLabel className="text-sm font-medium text-fg1">
+              Voice
+            </FormLabel>
+            <VoicesShowcase
               onSelectVoice={(voiceId) => {
-                if (ConfigurationFormSchema.shape.voice.safeParse(voiceId).success) {
+                if (
+                  ConfigurationFormSchema.shape.voice.safeParse(voiceId).success
+                ) {
                   field.onChange(voiceId);
                 }
               }}
@@ -112,9 +128,7 @@ export function VoiceSelector({ form, ...props }: ConfigurationFormFieldProps) {
           <div className="flex items-center gap-2">
             <Select
               onValueChange={(v) => {
-                if (
-                  ConfigurationFormSchema.shape.voice.safeParse(v).success
-                ) {
+                if (ConfigurationFormSchema.shape.voice.safeParse(v).success) {
                   field.onChange(v);
                 }
               }}

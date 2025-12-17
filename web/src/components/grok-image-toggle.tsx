@@ -27,7 +27,11 @@ export function GrokImageToggle({ form }: ConfigurationFormFieldProps) {
           <FormLabel className="text-sm font-medium text-fg1">
             Grok Imagine
           </FormLabel>
-          <HoverCard openDelay={200} open={hoverCardOpen} onOpenChange={setHoverCardOpen}>
+          <HoverCard
+            openDelay={200}
+            open={hoverCardOpen}
+            onOpenChange={setHoverCardOpen}
+          >
             <HoverCardTrigger asChild>
               <div>
                 <FormControl>
@@ -47,8 +51,8 @@ export function GrokImageToggle({ form }: ConfigurationFormFieldProps) {
               <div className="space-y-2">
                 <p className="font-semibold text-fg0">Image Generation</p>
                 <p className="text-fg2">
-                  Generate images using xAI. When enabled, 
-                  the agent can create visual content in response to your requests.
+                  Generate images using xAI. When enabled, the agent can create
+                  visual content in response to your requests.
                 </p>
               </div>
             </HoverCardContent>
@@ -58,4 +62,3 @@ export function GrokImageToggle({ form }: ConfigurationFormFieldProps) {
     />
   );
 }
-

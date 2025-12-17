@@ -62,7 +62,8 @@ export function ConfigurationForm() {
     }
 
     const values = pgState.sessionConfig;
-    const fullInstructions = playgroundStateHelpers.getFullInstructions(pgState);
+    const fullInstructions =
+      playgroundStateHelpers.getFullInstructions(pgState);
     const attributes: { [key: string]: string | number | boolean } = {
       xai_api_key: pgState.xaiAPIKey || "",
       instructions: fullInstructions,
@@ -86,7 +87,8 @@ export function ConfigurationForm() {
     // Check if any attributes have changed
     // Convert both to strings for comparison since attributes are stored as strings
     const hasChanges = Object.keys(attributes).some(
-      (key) => String(attributes[key]) !== String(localParticipant.attributes[key])
+      (key) =>
+        String(attributes[key]) !== String(localParticipant.attributes[key])
     );
 
     if (!hasChanges) {
@@ -96,32 +98,35 @@ export function ConfigurationForm() {
 
     // Check if any critical fields changed that require full reconnection
     const hasCriticalChanges = RECONNECT_REQUIRED_FIELDS.some(
-      (key) => String(attributes[key]) !== String(localParticipant.attributes[key])
+      (key) =>
+        String(attributes[key]) !== String(localParticipant.attributes[key])
     );
 
     //const listOfThingsThatChanged = Object.keys(attributes).filter(key => String(attributes[key]) !== String(localParticipant.attributes[key]));
     //console.log("listOfThingsThatChanged: ", listOfThingsThatChanged);
 
     if (hasCriticalChanges) {
-      console.log("Critical config change detected, triggering reconnection...");
-      
+      console.log(
+        "Critical config change detected, triggering reconnection..."
+      );
+
       // Set reconnecting flag to prevent update loops
       isReconnectingRef.current = true;
-    
+
       try {
         // Trigger full reconnection
         await disconnect();
         // Small delay to ensure clean disconnect
-        await new Promise(resolve => setTimeout(resolve, 500));
-        
+        await new Promise((resolve) => setTimeout(resolve, 500));
+
         // Reset the connection flag so the first update after reconnect is skipped
         hasConnectedOnceRef.current = false;
-        
+
         await connect();
-        
+
         // Wait a bit longer for the connection to stabilize and attributes to sync
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
         toast({
           title: "Reconnected",
           description: "Session reconnected with new settings.",
